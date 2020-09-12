@@ -1,7 +1,6 @@
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: 'red',
   },
   btn: {
     padding: 8,
@@ -14,8 +13,13 @@ const styles = {
     textAlign: 'center',
   },
   textTitle: {
-    color: '#fff',
+    color: '#000',
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  loader: {
+    marginTop: 60,
   },
 };
 export default styles;
