@@ -35,7 +35,6 @@ class CoinsScreen extends Component {
     const {coins = [], loading = true} = {...this.state};
     return (
       <View style={styles.container}>
-        <Text style={styles.textTitle}>Coins Detail</Text>
         {loading && (
           <ActivityIndicator color="#fff" size="large" style={styles.loader} />
         )}
@@ -43,8 +42,7 @@ class CoinsScreen extends Component {
           data={coins}
           renderItem={(item) => {
             const {item: item_ = {}} = {...item};
-            const {name = '', symbol = ''} = {...item_};
-            return <CoinsItem name={name} symbol={symbol} />;
+            return <CoinsItem info={item_} />;
           }}
         />
         <Pressable onPress={this.handlePress} style={styles.btn}>

@@ -1,10 +1,12 @@
+import Colors from './../../../utils/colors';
 const styles = {
   container: {
     flex: 1,
+    backgroundColor: Colors.charade,
   },
   btn: {
     padding: 8,
-    backgroundColor: 'blue',
+    backgroundColor: Colors.zircon,
     borderRadius: 10,
     margin: 16,
   },
