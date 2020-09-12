@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import CoinsScreen from './CoinsScreen/index';
-import CoinsDetailScreen from './CoinsDetail';
+import CoinsDetailScreen from './CoinsDetail/index';
 import Colors from './../../utils/colors';
 
 const Stack = createStackNavigator();

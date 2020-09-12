@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import style from './CoinsItem.styles';
 const styles = StyleSheet.create(style);
-const CoinsItem = (info = {}) => {
-  const {info: info_ = {}} = {...info};
+const CoinsItem = ({info = {}, onPress = () => {}}) => {
+  const {item = {}} = {...info};
   const {name = '', symbol = '', percent_change_1h = '', price_usd = ''} = {
-    ...info_,
+    ...item,
   };
 
   const getImageArrow = () => {
@@ -17,7 +17,7 @@ const CoinsItem = (info = {}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.textName}>{name}</Text>
         <Text style={styles.textSymbol}>{symbol}</Text>
@@ -27,7 +27,7 @@ const CoinsItem = (info = {}) => {
         <Text style={styles.textPercent}>{percent_change_1h}</Text>
         <Image source={getImageArrow()} style={styles.imageIcon} />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
