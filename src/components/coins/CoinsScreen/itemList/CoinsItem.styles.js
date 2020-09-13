@@ -8,7 +8,8 @@ const styles = {
     padding: 16,
     borderBottomColor: Colors.zircon,
     borderBottomWidth: 2,
-    paddingLeft: isiOS ? 16 : 0,
+    paddingLeft: isiOS ? 0 : 16,
+    marginLeft: isiOS ? 16 : 0,
   },
   row: {
     flexDirection: 'row',

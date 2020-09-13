@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import Http from './../../../libs/Http';
 import style from './CoinsScreen.styles';
 import CoinsItem from './itemList/index';
@@ -29,7 +22,8 @@ class CoinsScreen extends Component {
   };
 
   handlePress = (coin) => {
-    this.props.navigation.navigate('CoinsDetail', {coin});
+    const {item = {}} = {...coin};
+    this.props.navigation.navigate('CoinsDetail', {coin: item});
   };
   render() {
     const {coins = [], loading = true} = {...this.state};

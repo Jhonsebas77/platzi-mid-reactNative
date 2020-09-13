@@ -4,24 +4,33 @@ const styles = {
     flex: 1,
     backgroundColor: Colors.charade,
   },
-  btn: {
-    padding: 8,
-    backgroundColor: Colors.zircon,
-    borderRadius: 10,
-    margin: 16,
+  iconImage: {
+    width: 20,
+    height: 20,
   },
-  text: {
-    color: '#fff',
-    textAlign: 'center',
+  subHeader: {
+    backgroundColor: Colors.black10,
+    padding: 16,
+    flexDirection: 'row',
   },
-  textTitle: {
-    color: '#000',
-    textAlign: 'center',
+  titleText: {
+    fontSize: 16,
     fontWeight: 'bold',
-    fontSize: 30,
+    color: Colors.white,
+    marginLeft: 8,
   },
-  loader: {
-    marginTop: 60,
+  sectionHeader: {
+    backgroundColor: Colors.black20,
+  },
+  sectionItem: {
+    padding: 8,
+  },
+  itemText: {
+    color: Colors.white,
+    fontSize: 14,
+  },
+  sectionText: {
+    color: Colors.white,
   },
 };
 export default styles;
