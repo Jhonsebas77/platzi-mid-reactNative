@@ -1,17 +1,30 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, SectionList} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  SectionList,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import Http from './../../../libs/Http';
+import MarketItem from './marketItem/index';
 const styles = StyleSheet.create(style);
 import style from './CoinsDetail.styles';
 
 class CoinsDetailScreen extends Component {
   state = {
     coin: {},
+    markets: [],
+    loading: true,
   };
   componentDidMount() {
     const {coin} = {...this.props.route.params};
-    const {symbol = ''} = {...coin};
+    const {symbol = '', id = ''} = {...coin};
     this.props.navigation.setOptions({title: symbol});
     this.setCoinData(coin);
+    this.getMarkets(id);
   }
   setCoinData = (coin) => {
     this.setState({coin});
@@ -40,19 +53,25 @@ class CoinsDetailScreen extends Component {
     ];
     return sections;
   };
+  getMarkets = async (coinId) => {
+    const url = `https://api.coinlore.net/api/coin/markets/?id=${coinId}`;
+    const markets = await Http.instance.get(url);
+    this.setState({markets, loading: false});
+  };
   render() {
-    const {coin = {}} = {...this.state};
-    const {name = ''} = {...coin};
+    const {coin = {}, markets = [], loading = true} = {...this.state};
+    const {name: nameCoin = ''} = {...coin};
     return (
       <View style={styles.container}>
         <View style={styles.subHeader}>
           <Image
-            source={{uri: this.getSymbolIcon(name)}}
+            source={{uri: this.getSymbolIcon(nameCoin)}}
             style={styles.iconImage}
           />
-          <Text style={styles.titleText}>{name}</Text>
+          <Text style={styles.titleText}>{nameCoin}</Text>
         </View>
         <SectionList
+          style={styles.section}
           sections={this.getSections(coin)}
           keyExtractor={(item) => item}
           renderItem={({item}) => (
@@ -65,6 +84,16 @@ class CoinsDetailScreen extends Component {
               <Text style={styles.sectionText}>{section.title}</Text>
             </View>
           )}
+        />
+        <Text style={styles.textMarketTitle}>Mercados</Text>
+        {loading && (
+          <ActivityIndicator color="#fff" size="large" style={styles.loader} />
+        )}
+        <FlatList
+          style={styles.list}
+          data={markets}
+          horizontal={true}
+          renderItem={({item}) => <MarketItem info={item} />}
         />
       </View>
     );

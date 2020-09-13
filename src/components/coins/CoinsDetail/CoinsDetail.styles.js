@@ -32,5 +32,18 @@ const styles = {
   sectionText: {
     color: Colors.white,
   },
+  section: {
+    maxHeight: 220,
+  },
+  list: {
+    maxHeight: 100,
+    marginLeft: 16,
+  },
+  textMarketTitle: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    marginLeft: 16,
+  },
 };
 export default styles;
