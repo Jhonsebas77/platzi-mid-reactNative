@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import Http from './../../../libs/Http';
 import MarketItem from './marketItem/index';
-const styles = StyleSheet.create(style);
 import style from './CoinsDetail.styles';
+const styles = StyleSheet.create(style);
 
 class CoinsDetailScreen extends Component {
   state = {
