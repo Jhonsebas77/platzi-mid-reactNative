@@ -7,10 +7,13 @@ import {
   SectionList,
   FlatList,
   ActivityIndicator,
+  Pressable,
+  Alert,
 } from 'react-native';
 import Http from './../../../libs/Http';
 import MarketItem from './marketItem/index';
 import style from './CoinsDetail.styles';
+import Storage from './../../../libs/Storage';
 const styles = StyleSheet.create(style);
 
 class CoinsDetailScreen extends Component {
@@ -18,6 +21,7 @@ class CoinsDetailScreen extends Component {
     coin: {},
     markets: [],
     loading: true,
+    isFavorite: false,
   };
   componentDidMount() {
     const {coin} = {...this.props.route.params};
@@ -26,8 +30,55 @@ class CoinsDetailScreen extends Component {
     this.setCoinData(coin);
     this.getMarkets(id);
   }
+  toggleFavorites = () => {
+    const {isFavorite = false} = {...this.state};
+    isFavorite ? this.removeFavorite() : this.addFavorite();
+  };
+  addFavorite = async () => {
+    const {coin = {}} = {...this.state};
+    const {id = ''} = {...coin};
+    const coin_json = JSON.stringify(coin);
+    const coin_key = `favorite-${id}`;
+    const stored = await Storage.instance.store(coin_key, coin_json);
+    if (stored) {
+      this.setState({isFavorite: true});
+    }
+  };
+  removeFavorite = async () => {
+    Alert.alert('Remove Favorite', 'Are you sure?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Remove',
+        onPress: async () => {
+          const {coin = {}} = {...this.state};
+          const {id = ''} = {...coin};
+          const coin_key = `favorite-${id}`;
+          await Storage.instance.remove(coin_key);
+          this.setState({isFavorite: false});
+        },
+        style: 'destructive',
+      },
+    ]);
+  };
+  getFavorites = async () => {
+    try {
+      const {coin = {}} = {...this.state};
+      const {id = ''} = {...coin};
+      const coin_key = `favorite-${id}`;
+      const favStr = await Storage.instance.get(coin_key);
+      !!favStr && this.setState({isFavorite: true});
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  };
   setCoinData = (coin) => {
-    this.setState({coin});
+    this.setState({coin}, () => {
+      this.getFavorites();
+    });
   };
   getSymbolIcon = (nameCoin) => {
     const symbol = nameCoin && nameCoin.toLowerCase().replace('-', '');
@@ -59,16 +110,30 @@ class CoinsDetailScreen extends Component {
     this.setState({markets, loading: false});
   };
   render() {
-    const {coin = {}, markets = [], loading = true} = {...this.state};
+    const {coin = {}, markets = [], loading = true, isFavorite = false} = {
+      ...this.state,
+    };
     const {name: nameCoin = ''} = {...coin};
     return (
       <View style={styles.container}>
         <View style={styles.subHeader}>
-          <Image
-            source={{uri: this.getSymbolIcon(nameCoin)}}
-            style={styles.iconImage}
-          />
-          <Text style={styles.titleText}>{nameCoin}</Text>
+          <View style={styles.row}>
+            <Image
+              source={{uri: this.getSymbolIcon(nameCoin)}}
+              style={styles.iconImage}
+            />
+            <Text style={styles.titleText}>{nameCoin}</Text>
+          </View>
+          <Pressable
+            onPress={this.toggleFavorites}
+            style={[
+              styles.btnFavorite,
+              isFavorite ? styles.btnFavRemove : styles.btnFavAdd,
+            ]}>
+            <Text style={styles.btnFavoriteText}>
+              {isFavorite ? 'Remove Favorite' : 'Add Favorite'}
+            </Text>
+          </Pressable>
         </View>
         <SectionList
           style={styles.section}
