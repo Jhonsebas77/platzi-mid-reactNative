@@ -12,6 +12,7 @@ const styles = {
     backgroundColor: Colors.black10,
     padding: 16,
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   titleText: {
     fontSize: 16,
@@ -44,6 +45,22 @@ const styles = {
     fontWeight: 'bold',
     marginBottom: 16,
     marginLeft: 16,
+  },
+  btnFavorite: {
+    padding: 8,
+    borderRadius: 8,
+  },
+  btnFavoriteText: {
+    color: Colors.white,
+  },
+  btnFavAdd: {
+    backgroundColor: Colors.picton,
+  },
+  btnFavRemove: {
+    backgroundColor: Colors.carmine,
+  },
+  row: {
+    flexDirection: 'row',
   },
 };
 export default styles;
